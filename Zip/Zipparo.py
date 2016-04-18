@@ -13,16 +13,16 @@ from collections import OrderedDict
 class MyProject(object):
 
     def unzip_file(self, source_path, destination_path):
-       with zipfile.ZipFile(source_path) as zfile:
-           zfile.extractall(destination_path)
-           zfile.close()
+        with zipfile.ZipFile(source_path) as zfile:
+            zfile.extractall(destination_path)
+            zfile.close()
 
     def create_thumbnail(self, source_path, destination_path):
-       size = 100, 100
-       image = Image.open(source_path)
-       image.thumbnail(size, Image.ANTIALIAS)
-       image.save(destination_path)
-       image.close()
+        size = 100, 100
+        image = Image.open(source_path)
+        image.thumbnail(size, Image.ANTIALIAS)
+        image.save(destination_path)
+        image.close()
 
     def create_thumbnails(self, file_name):
         text_to_append = "_thumbnail."
@@ -31,27 +31,27 @@ class MyProject(object):
         self.create_thumbnail(file_name, new_file_name)
 
     def json_reader(self, file_path):
-       with open(file_path) as data_file:
-           data = json.load(data_file)
-           return data
+        with open(file_path) as data_file:
+            data = json.load(data_file)
+            return data
 
     def create_and_step_into_directory(self, directory):
-       try:
-           os.makedirs(directory)
-           os.chdir(directory)
-       except OSError:
-           print("Error, could not create directory: " + directory)
-           raise
+        try:
+            os.makedirs(directory)
+            os.chdir(directory)
+        except OSError:
+            print("Error, could not create directory: " + directory)
+            raise
 
     def create_folder_tree(self, images_directory, directory_tree):
         for directory in directory_tree:
-           if "." in directory:
-               self.copy_files(images_directory + "\\" + directory, os.getcwd())
-               self.create_thumbnails(directory)
-               print("Found file: " + directory)
-           else:
-               self.create_and_step_into_directory(directory)
-               self.create_folder_tree(images_directory, directory_tree[directory])
+            if "." in directory:
+                self.copy_files(images_directory + "\\" + directory, os.getcwd())
+                self.create_thumbnails(directory)
+                print("Found file: " + directory)
+            else:
+                self.create_and_step_into_directory(directory)
+                self.create_folder_tree(images_directory, directory_tree[directory])
         os.chdir("..")
 
     def create_folders(self, images_directory):
